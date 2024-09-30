@@ -5,11 +5,12 @@ import { Label } from "@/components/ui/label";
 
 const InvoiceGenerator = () => {
   const [customerName, setCustomerName] = useState('');
+  const [serviceDetails, setServiceDetails] = useState('');
   const [amount, setAmount] = useState('');
 
   const handleGenerateInvoice = () => {
     // In a real application, this would call an API to generate the invoice
-    console.log(`Generating invoice for ${customerName} with amount $${amount}`);
+    console.log(`Generating invoice for ${customerName} with service: ${serviceDetails} and amount $${amount}`);
     // You would then handle the response, perhaps showing a success message or the generated invoice
   };
 
@@ -22,6 +23,15 @@ const InvoiceGenerator = () => {
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
           placeholder="Enter customer name"
+        />
+      </div>
+      <div>
+        <Label htmlFor="serviceDetails">Service Details</Label>
+        <Input
+          id="serviceDetails"
+          value={serviceDetails}
+          onChange={(e) => setServiceDetails(e.target.value)}
+          placeholder="Enter service details"
         />
       </div>
       <div>
