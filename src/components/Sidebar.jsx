@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HomeIcon, FileTextIcon, LayoutDashboardIcon, UsersIcon, DollarSignIcon } from "lucide-react";
+import { navItems } from '../nav-items';
 
 const Sidebar = () => {
   return (
@@ -8,36 +8,14 @@ const Sidebar = () => {
       <h1 className="text-2xl font-bold mb-6">Waste Management</h1>
       <nav>
         <ul className="space-y-2">
-          <li>
-            <Link to="/" className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
-              <HomeIcon className="h-5 w-5" />
-              <span>Home</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard" className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
-              <LayoutDashboardIcon className="h-5 w-5" />
-              <span>Dashboard</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/cpcn-form" className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
-              <FileTextIcon className="h-5 w-5" />
-              <span>CPCN Form</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/crm" className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
-              <UsersIcon className="h-5 w-5" />
-              <span>CRM</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/invoicing" className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
-              <DollarSignIcon className="h-5 w-5" />
-              <span>Invoicing</span>
-            </Link>
-          </li>
+          {navItems.map((item) => (
+            <li key={item.to}>
+              <Link to={item.to} className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
+                {item.icon}
+                <span>{item.title}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
