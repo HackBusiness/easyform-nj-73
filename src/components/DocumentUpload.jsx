@@ -3,16 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import DragDropZone from './DragDropZone';
 import FilePreview from './FilePreview';
 import DocumentList from './DocumentList';
-import { useDocumentUpload } from '../hooks/useDocumentUpload';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { toast } from 'sonner';
 
-// Mock fetchDocuments function
+// Mock function to simulate fetching documents
 const fetchDocuments = async () => {
-  // Simulating an API call
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -25,11 +23,11 @@ const fetchDocuments = async () => {
 
 const DocumentUpload = () => {
   const [files, setFiles] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('');
   const [tags, setTags] = useState([]);
-
-  const { uploadProgress, uploadFiles, deleteFile, downloadFile } = useDocumentUpload();
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const { data: documents, isLoading, error } = useQuery({
     queryKey: ['documents'],
@@ -40,38 +38,50 @@ const DocumentUpload = () => {
     setFiles([...files, ...acceptedFiles]);
   };
 
-  const handleUpload = async () => {
-    try {
-      await uploadFiles(files, category, tags);
-      setFiles([]);
-      toast.success('Files uploaded successfully');
-    } catch (error) {
-      toast.error('Error uploading files');
-    }
+  const simulateUpload = () => {
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      setUploadProgress(progress);
+      if (progress >= 100) {
+        clearInterval(interval);
+        setUploadProgress(0);
+        const newUploadedFiles = files.map((file, index) => ({
+          id: Date.now() + index,
+          name: file.name,
+          category,
+          tags: tags.split(',').map(tag => tag.trim()),
+          uploadDate: new Date(),
+        }));
+        setUploadedFiles([...uploadedFiles, ...newUploadedFiles]);
+        setFiles([]);
+        toast.success('Files uploaded successfully');
+      }
+    }, 300);
   };
 
-  const handleDelete = async (fileId) => {
-    try {
-      await deleteFile(fileId);
-      toast.success('File deleted successfully');
-    } catch (error) {
-      toast.error('Error deleting file');
+  const handleUpload = () => {
+    if (files.length === 0) {
+      toast.error('Please select files to upload');
+      return;
     }
+    simulateUpload();
   };
 
-  const handleDownload = async (fileId, fileName) => {
-    try {
-      await downloadFile(fileId, fileName);
-      toast.success('File downloaded successfully');
-    } catch (error) {
-      toast.error('Error downloading file');
-    }
+  const handleDelete = (fileId) => {
+    setUploadedFiles(uploadedFiles.filter(file => file.id !== fileId));
+    toast.success('File deleted successfully');
   };
 
-  const filteredDocuments = documents?.filter(doc =>
+  const handleDownload = (fileId, fileName) => {
+    // In a real application, this would trigger a file download
+    toast.success(`Downloading ${fileName}`);
+  };
+
+  const filteredDocuments = [...documents || [], ...uploadedFiles].filter(doc =>
     doc.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (category === '' || doc.category === category) &&
-    (tags.length === 0 || tags.every(tag => doc.tags.includes(tag)))
+    (tags.length === 0 || tags.split(',').every(tag => doc.tags.includes(tag.trim())))
   );
 
   return (
@@ -95,8 +105,8 @@ const DocumentUpload = () => {
           <Label htmlFor="tags">Tags (comma-separated)</Label>
           <Input
             id="tags"
-            value={tags.join(', ')}
-            onChange={(e) => setTags(e.target.value.split(',').map(tag => tag.trim()))}
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
             placeholder="Enter tags"
             className="mb-2"
           />
