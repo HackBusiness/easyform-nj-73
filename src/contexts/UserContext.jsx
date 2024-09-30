@@ -8,26 +8,22 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: '1',
     name: 'John Doe',
-    role: 'admin',
-  });
-
-  const [permissions, setPermissions] = useState({
-    Admin: ['viewForms', 'editForms', 'submitForms', 'deleteForms', 'manageUsers', 'generateReports', 'digitalSignature', 'fileUploads', 'accessNotifications'],
-    Manager: ['viewForms', 'editForms', 'submitForms', 'manageUsers', 'generateReports', 'digitalSignature', 'fileUploads', 'accessNotifications'],
-    User: ['viewForms', 'submitForms', 'digitalSignature', 'fileUploads', 'accessNotifications'],
-    Viewer: ['viewForms'],
+    role: 'admin', // Default role for testing, should be fetched from backend in real app
   });
 
   const hasPermission = (permission) => {
+    const permissions = {
+      admin: ['viewForms', 'editForms', 'submitForms', 'deleteForms', 'manageUsers', 'generateReports', 'digitalSignature', 'fileUploads', 'accessNotifications'],
+      manager: ['viewForms', 'editForms', 'submitForms', 'manageUsers', 'generateReports', 'digitalSignature', 'fileUploads', 'accessNotifications'],
+      user: ['viewForms', 'submitForms', 'digitalSignature', 'fileUploads', 'accessNotifications'],
+      viewer: ['viewForms'],
+    };
+
     return permissions[user.role]?.includes(permission) || false;
   };
 
-  const updatePermissions = (newPermissions) => {
-    setPermissions(newPermissions);
-  };
-
   return (
-    <UserContext.Provider value={{ user, setUser, hasPermission, permissions, updatePermissions }}>
+    <UserContext.Provider value={{ user, setUser, hasPermission }}>
       {children}
     </UserContext.Provider>
   );
