@@ -16,6 +16,7 @@ import RelatedCompanies from './CPCNFormSections/RelatedCompanies';
 import DisposalInformation from './CPCNFormSections/DisposalInformation';
 import OtherRevenueSources from './CPCNFormSections/OtherRevenueSources';
 import FormProgress from './FormProgress';
+import FormNavigation from './FormNavigation';
 
 const CPCNForm = () => {
   const { register, control, handleSubmit, watch, setValue, formState: { errors } } = useForm();
@@ -50,6 +51,10 @@ const CPCNForm = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
+  const navigateToSection = (index) => {
+    setCurrentStep(index);
+  };
+
   const CurrentSection = sections[currentStep].component;
 
   return (
@@ -59,6 +64,7 @@ const CPCNForm = () => {
           <CardTitle className="text-center">2023 CPCN ANNUAL REPORT FOR COLLECTORS/TRANSPORTERS AND BROKERS</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
+          <FormNavigation sections={sections} currentStep={currentStep} onNavigate={navigateToSection} />
           <FormProgress currentStep={currentStep} totalSteps={sections.length} />
           <CurrentSection register={register} errors={errors} watch={watch} control={control} setValue={setValue} />
           <div className="flex justify-between mt-4">
