@@ -3,6 +3,7 @@ import { useUser } from '../contexts/UserContext';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import PermissionMatrix from './PermissionMatrix';
 
 const UserManagement = () => {
   const { hasPermission } = useUser();
@@ -13,6 +14,13 @@ const UserManagement = () => {
   ]);
 
   const [newUser, setNewUser] = useState({ name: '', role: '' });
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [userPermissions, setUserPermissions] = useState({
+    Admin: ['viewForms', 'editForms', 'submitForms', 'deleteForms', 'manageUsers', 'generateReports', 'digitalSignature', 'fileUploads', 'accessNotifications'],
+    Manager: ['viewForms', 'editForms', 'submitForms', 'manageUsers', 'generateReports', 'digitalSignature', 'fileUploads', 'accessNotifications'],
+    User: ['viewForms', 'submitForms', 'digitalSignature', 'fileUploads', 'accessNotifications'],
+    Viewer: ['viewForms'],
+  });
 
   const handleAddUser = () => {
     if (newUser.name && newUser.role) {
@@ -23,10 +31,25 @@ const UserManagement = () => {
 
   const handleDeleteUser = (id) => {
     setUsers(users.filter(user => user.id !== id));
+    if (selectedUser && selectedUser.id === id) {
+      setSelectedUser(null);
+    }
   };
 
   const handleRoleChange = (id, newRole) => {
     setUsers(users.map(user => user.id === id ? { ...user, role: newRole } : user));
+    if (selectedUser && selectedUser.id === id) {
+      setSelectedUser({ ...selectedUser, role: newRole });
+    }
+  };
+
+  const handlePermissionChange = (role, permission, checked) => {
+    setUserPermissions(prevPermissions => ({
+      ...prevPermissions,
+      [role]: checked
+        ? [...prevPermissions[role], permission]
+        : prevPermissions[role].filter(p => p !== permission)
+    }));
   };
 
   if (!hasPermission('manageUsers')) {
@@ -58,7 +81,7 @@ const UserManagement = () => {
         </Select>
         <Button onClick={handleAddUser}>Add User</Button>
       </div>
-      <table className="min-w-full">
+      <table className="min-w-full mb-4">
         <thead>
           <tr>
             <th className="text-left">Name</th>
@@ -87,12 +110,22 @@ const UserManagement = () => {
                 </Select>
               </td>
               <td>
+                <Button variant="outline" onClick={() => setSelectedUser(user)}>Edit</Button>
                 <Button variant="destructive" onClick={() => handleDeleteUser(user.id)}>Delete</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {selectedUser && (
+        <div>
+          <h3 className="text-xl font-bold mb-2">Edit Permissions for {selectedUser.name}</h3>
+          <PermissionMatrix
+            userPermissions={userPermissions}
+            onPermissionChange={handlePermissionChange}
+          />
+        </div>
+      )}
     </div>
   );
 };
