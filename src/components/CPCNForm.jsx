@@ -14,6 +14,7 @@ import BrokersUsed from './CPCNFormSections/BrokersUsed';
 import RelatedCompanies from './CPCNFormSections/RelatedCompanies';
 import DisposalInformation from './CPCNFormSections/DisposalInformation';
 import OtherRevenueSources from './CPCNFormSections/OtherRevenueSources';
+import CustomerServiceAreaInventoryBrokers from './CPCNFormSections/CustomerServiceAreaInventoryBrokers';
 import FormProgress from './FormProgress';
 import FormNavigation from './FormNavigation';
 
@@ -34,6 +35,7 @@ const CPCNForm = () => {
     { title: "Related Companies", component: RelatedCompanies },
     { title: "Disposal Info", component: DisposalInformation },
     { title: "Other Revenue", component: OtherRevenueSources },
+    { title: "Customer Service Area", component: CustomerServiceAreaInventoryBrokers },
   ];
 
   const onSubmit = (data) => {
