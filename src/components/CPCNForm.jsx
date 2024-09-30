@@ -9,6 +9,7 @@ import JudgmentsLiens from './CPCNFormSections/JudgmentsLiens';
 import OperatingAuthority from './CPCNFormSections/OperatingAuthority';
 import SubcontractingOut from './CPCNFormSections/SubcontractingOut';
 import SubcontractingIn from './CPCNFormSections/SubcontractingIn';
+import TariffUpdate from './CPCNFormSections/TariffUpdate';
 import FormProgress from './FormProgress';
 
 const CPCNForm = () => {
@@ -23,6 +24,7 @@ const CPCNForm = () => {
     { title: "Operating Authority", component: OperatingAuthority },
     { title: "Subcontracting Out", component: SubcontractingOut },
     { title: "Subcontracting In", component: SubcontractingIn },
+    { title: "Tariff Update (2023)", component: TariffUpdate },
   ];
 
   const onSubmit = (data) => {
