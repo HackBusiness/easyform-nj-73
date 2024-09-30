@@ -2,7 +2,6 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const InvoiceList = () => {
   const mockInvoices = [
@@ -11,26 +10,16 @@ const InvoiceList = () => {
   ];
 
   return (
-    <div>
-      <div className="flex justify-between mb-4">
-        <Input className="w-1/3" placeholder="Search invoices..." />
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="paid">Paid</SelectItem>
-            <SelectItem value="unpaid">Unpaid</SelectItem>
-            <SelectItem value="overdue">Overdue</SelectItem>
-          </SelectContent>
-        </Select>
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <Input className="w-64" placeholder="Search invoices..." />
+        <Button>New Invoice</Button>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Invoice #</TableHead>
-            <TableHead>Customer Name</TableHead>
+            <TableHead>Customer</TableHead>
             <TableHead>Amount</TableHead>
             <TableHead>Due Date</TableHead>
             <TableHead>Status</TableHead>
@@ -46,9 +35,7 @@ const InvoiceList = () => {
               <TableCell>{invoice.dueDate}</TableCell>
               <TableCell>{invoice.status}</TableCell>
               <TableCell>
-                <Button variant="outline" size="sm" className="mr-2">View</Button>
-                <Button variant="outline" size="sm" className="mr-2">Edit</Button>
-                <Button variant="outline" size="sm">Delete</Button>
+                <Button variant="outline" size="sm">View</Button>
               </TableCell>
             </TableRow>
           ))}

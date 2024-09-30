@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 import InvoiceList from '../components/invoicing/InvoiceList';
 import InvoiceGeneration from '../components/invoicing/InvoiceGeneration';
 import RecurringBilling from '../components/invoicing/RecurringBilling';
@@ -8,56 +9,59 @@ import PaymentIntegration from '../components/invoicing/PaymentIntegration';
 
 const InvoicingPage = () => {
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-6">Invoicing</h1>
-      <p className="text-gray-600 mb-8">Manage your invoices efficiently.</p>
+      <p className="text-gray-600 mb-8">Manage your invoices efficiently with our easy-to-use tools.</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Invoice List</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <InvoiceList />
-          </CardContent>
-        </Card>
+      <Tabs defaultValue="list" className="space-y-8">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="list">Invoices</TabsTrigger>
+          <TabsTrigger value="generate">New Invoice</TabsTrigger>
+          <TabsTrigger value="recurring">Recurring</TabsTrigger>
+          <TabsTrigger value="latefees">Late Fees</TabsTrigger>
+          <TabsTrigger value="payments">Payments</TabsTrigger>
+        </TabsList>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Generate Invoice</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <InvoiceGeneration />
-          </CardContent>
-        </Card>
+        <TabsContent value="list">
+          <Card>
+            <CardContent className="pt-6">
+              <InvoiceList />
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recurring Billing</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <RecurringBilling />
-          </CardContent>
-        </Card>
+        <TabsContent value="generate">
+          <Card>
+            <CardContent className="pt-6">
+              <InvoiceGeneration />
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Late Fee Management</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <LateFeeManagement />
-          </CardContent>
-        </Card>
+        <TabsContent value="recurring">
+          <Card>
+            <CardContent className="pt-6">
+              <RecurringBilling />
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Payment Integration</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <PaymentIntegration />
-          </CardContent>
-        </Card>
-      </div>
+        <TabsContent value="latefees">
+          <Card>
+            <CardContent className="pt-6">
+              <LateFeeManagement />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="payments">
+          <Card>
+            <CardContent className="pt-6">
+              <PaymentIntegration />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
