@@ -7,29 +7,47 @@ import Sidebar from "./components/Sidebar";
 import CPCNForm from "./pages/CPCNForm";
 import Dashboard from "./pages/Dashboard";
 import CRM from "./pages/CRM";
+import UserManagement from "./components/UserManagement";
+import { UserProvider } from "./contexts/UserContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <BrowserRouter>
-        <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-8">
-            <Routes>
-              {navItems.map(({ to, page }) => (
-                <Route key={to} path={to} element={page} />
-              ))}
-              <Route path="/cpcn-form" element={<CPCNForm />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/crm" element={<CRM />} />
-            </Routes>
-          </main>
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
+    <UserProvider>
+      <TooltipProvider>
+        <Toaster />
+        <BrowserRouter>
+          <div className="flex">
+            <Sidebar />
+            <main className="flex-1 p-8">
+              <Routes>
+                {navItems.map(({ to, page, permission }) => (
+                  <Route
+                    key={to}
+                    path={to}
+                    element={
+                      <ProtectedRoute permission={permission}>
+                        {page}
+                      </ProtectedRoute>
+                    }
+                  />
+                ))}
+                <Route
+                  path="/user-management"
+                  element={
+                    <ProtectedRoute permission="manageUsers">
+                      <UserManagement />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </main>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </UserProvider>
   </QueryClientProvider>
 );
 
