@@ -32,6 +32,12 @@ const Sidebar = () => {
               <span>CRM</span>
             </Link>
           </li>
+          <li>
+            <Link to="/invoicing" className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded">
+              <DollarSignIcon className="h-5 w-5" />
+              <span>Invoicing</span>
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>
