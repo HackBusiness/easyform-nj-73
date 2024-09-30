@@ -6,7 +6,6 @@ import { navItems } from "./nav-items";
 import CPCNForm from "./pages/CPCNForm";
 import Dashboard from "./pages/Dashboard";
 import CRM from "./pages/CRM";
-import InvoicingPage from "./pages/InvoicingPage";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +21,6 @@ const App = () => (
           <Route path="/cpcn-form" element={<CPCNForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/crm" element={<CRM />} />
-          <Route path="/invoicing" element={<InvoicingPage />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
