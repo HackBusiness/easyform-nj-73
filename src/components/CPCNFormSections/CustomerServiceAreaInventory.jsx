@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const counties = [
   "Atlantic", "Bergen", "Burlington", "Camden", "Cape May", "Cumberland", 
@@ -21,36 +23,44 @@ const CustomerServiceAreaInventory = ({ register, control, errors }) => {
     <div className="space-y-6">
       <h3 className="text-lg font-semibold">Customer Service Area Inventory</h3>
       
-      <div className="space-y-4">
-        <h4 className="font-medium">Customer List by County</h4>
+      <Accordion type="single" collapsible className="w-full">
         {counties.map((county) => (
-          <div key={county} className="space-y-2 p-4 border rounded">
-            <h5 className="font-medium">{county}</h5>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <Label htmlFor={`${county}-residential`}>Scheduled Residential</Label>
-                <Input id={`${county}-residential`} type="number" {...register(`customerList.${county}.residential`, { valueAsNumber: true })} />
-              </div>
-              <div>
-                <Label htmlFor={`${county}-commercial`}>Scheduled Commercial</Label>
-                <Input id={`${county}-commercial`} type="number" {...register(`customerList.${county}.commercial`, { valueAsNumber: true })} />
-              </div>
-              <div>
-                <Label htmlFor={`${county}-industrial`}>Scheduled Industrial</Label>
-                <Input id={`${county}-industrial`} type="number" {...register(`customerList.${county}.industrial`, { valueAsNumber: true })} />
-              </div>
-              <div>
-                <Label htmlFor={`${county}-repeated`}>Repeated On-Call Customers</Label>
-                <Input id={`${county}-repeated`} type="number" {...register(`customerList.${county}.repeated`, { valueAsNumber: true })} />
-              </div>
-              <div>
-                <Label htmlFor={`${county}-onetime`}>One-Time Only Customers</Label>
-                <Input id={`${county}-onetime`} type="number" {...register(`customerList.${county}.onetime`, { valueAsNumber: true })} />
-              </div>
-            </div>
-          </div>
+          <AccordionItem value={county} key={county}>
+            <AccordionTrigger>{county}</AccordionTrigger>
+            <AccordionContent>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{county} County</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor={`${county}-residential`}>Scheduled Residential</Label>
+                      <Input id={`${county}-residential`} type="number" {...register(`customerList.${county}.residential`, { valueAsNumber: true })} />
+                    </div>
+                    <div>
+                      <Label htmlFor={`${county}-commercial`}>Scheduled Commercial</Label>
+                      <Input id={`${county}-commercial`} type="number" {...register(`customerList.${county}.commercial`, { valueAsNumber: true })} />
+                    </div>
+                    <div>
+                      <Label htmlFor={`${county}-industrial`}>Scheduled Industrial</Label>
+                      <Input id={`${county}-industrial`} type="number" {...register(`customerList.${county}.industrial`, { valueAsNumber: true })} />
+                    </div>
+                    <div>
+                      <Label htmlFor={`${county}-repeated`}>Repeated On-Call Customers</Label>
+                      <Input id={`${county}-repeated`} type="number" {...register(`customerList.${county}.repeated`, { valueAsNumber: true })} />
+                    </div>
+                    <div className="col-span-2">
+                      <Label htmlFor={`${county}-onetime`}>One-Time Only Customers</Label>
+                      <Input id={`${county}-onetime`} type="number" {...register(`customerList.${county}.onetime`, { valueAsNumber: true })} />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
 
       <div className="space-y-4">
         <h4 className="font-medium">Municipal/Residential Contracts</h4>
