@@ -16,6 +16,7 @@ import DisposalInformation from './CPCNFormSections/DisposalInformation';
 import OtherRevenueSources from './CPCNFormSections/OtherRevenueSources';
 import CustomerServiceAreaInventoryBrokers from './CPCNFormSections/CustomerServiceAreaInventoryBrokers';
 import CollectorsTransportersUsed from './CPCNFormSections/CollectorsTransportersUsed';
+import ZeroRevenueCertification from './CPCNFormSections/ZeroRevenueCertification';
 import FormProgress from './FormProgress';
 import FormNavigation from './FormNavigation';
 
@@ -38,6 +39,7 @@ const CPCNForm = () => {
     { title: "Other Revenue", component: OtherRevenueSources },
     { title: "Customer Service Area", component: CustomerServiceAreaInventoryBrokers },
     { title: "Collectors/Transporters Used", component: CollectorsTransportersUsed },
+    { title: "Zero Revenue Certification", component: ZeroRevenueCertification },
   ];
 
   const onSubmit = (data) => {
