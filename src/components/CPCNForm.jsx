@@ -13,10 +13,11 @@ import TariffUpdate from './CPCNFormSections/TariffUpdate';
 import CustomerServiceAreaInventory from './CPCNFormSections/CustomerServiceAreaInventory';
 import BrokersUsed from './CPCNFormSections/BrokersUsed';
 import RelatedCompanies from './CPCNFormSections/RelatedCompanies';
+import DisposalInformation from './CPCNFormSections/DisposalInformation';
 import FormProgress from './FormProgress';
 
 const CPCNForm = () => {
-  const { register, control, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, control, handleSubmit, watch, setValue, formState: { errors } } = useForm();
   const [currentStep, setCurrentStep] = useState(0);
 
   const sections = [
@@ -31,6 +32,7 @@ const CPCNForm = () => {
     { title: "Customer Service Area Inventory", component: CustomerServiceAreaInventory },
     { title: "Brokers Used in 2023", component: BrokersUsed },
     { title: "Related Companies", component: RelatedCompanies },
+    { title: "Disposal Information", component: DisposalInformation },
   ];
 
   const onSubmit = (data) => {
@@ -56,7 +58,7 @@ const CPCNForm = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           <FormProgress currentStep={currentStep} totalSteps={sections.length} />
-          <CurrentSection register={register} errors={errors} watch={watch} control={control} />
+          <CurrentSection register={register} errors={errors} watch={watch} control={control} setValue={setValue} />
           <div className="flex justify-between mt-4">
             {currentStep > 0 && (
               <Button type="button" onClick={prevStep}>Previous</Button>
