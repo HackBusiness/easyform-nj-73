@@ -10,6 +10,19 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { toast } from 'sonner';
 
+// Mock fetchDocuments function
+const fetchDocuments = async () => {
+  // Simulating an API call
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: 1, name: 'Document 1.pdf', category: 'Contracts', tags: ['important'], uploadDate: new Date() },
+        { id: 2, name: 'Document 2.docx', category: 'Invoices', tags: ['Q1'], uploadDate: new Date() },
+      ]);
+    }, 1000);
+  });
+};
+
 const DocumentUpload = () => {
   const [files, setFiles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,7 +33,7 @@ const DocumentUpload = () => {
 
   const { data: documents, isLoading, error } = useQuery({
     queryKey: ['documents'],
-    queryFn: fetchDocuments, // This function needs to be implemented to fetch documents from your backend
+    queryFn: fetchDocuments,
   });
 
   const handleFileDrop = (acceptedFiles) => {
