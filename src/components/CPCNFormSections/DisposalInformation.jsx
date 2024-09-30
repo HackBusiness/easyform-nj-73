@@ -3,16 +3,16 @@ import { useFieldArray, useWatch } from 'react-hook-form';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { PlusCircle, Trash2, Building2, Truck, Train, Factory } from 'lucide-react';
 
 const facilityTypes = [
-  { id: 'TS', label: 'Transfer Station' },
-  { id: 'LF', label: 'Landfill' },
-  { id: 'RC', label: 'Rail Carrier' },
-  { id: 'RRF', label: 'Resource Recovery Facility/Incinerator' },
+  { id: 'TS', label: 'Transfer Station', icon: <Truck className="h-4 w-4" /> },
+  { id: 'LF', label: 'Landfill', icon: <Building2 className="h-4 w-4" /> },
+  { id: 'RC', label: 'Rail Carrier', icon: <Train className="h-4 w-4" /> },
+  { id: 'RRF', label: 'Resource Recovery Facility/Incinerator', icon: <Factory className="h-4 w-4" /> },
 ];
 
 const DisposalInformation = ({ control, register, setValue }) => {
@@ -33,85 +33,97 @@ const DisposalInformation = ({ control, register, setValue }) => {
 
   return (
     <Card className="mt-6">
-      <CardHeader>
-        <CardTitle>Disposal Information</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Facility Name & Address</TableHead>
-              <TableHead>Facility Type</TableHead>
-              <TableHead>Waste Type</TableHead>
-              <TableHead>County Origin</TableHead>
-              <TableHead>Tons Picked Up</TableHead>
-              <TableHead>Tons Disposed</TableHead>
-              <TableHead>Disposal Fee Paid</TableHead>
-              <TableHead>Recycling Tax Paid</TableHead>
-              <TableHead>Gross Revenue</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {fields.map((field, index) => (
-              <TableRow key={field.id}>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.name`)} placeholder="Facility Name" className="mb-2" />
-                  <Input {...register(`disposalFacilities.${index}.address`)} placeholder="Address" />
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col space-y-2">
-                    {facilityTypes.map((type) => (
-                      <div key={type.id} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`${type.id}-${index}`}
-                          {...register(`disposalFacilities.${index}.facilityTypes.${type.id}`)}
-                        />
-                        <Label htmlFor={`${type.id}-${index}`}>{type.label}</Label>
+      <CardContent className="pt-6">
+        <Accordion type="single" collapsible className="w-full space-y-4">
+          {fields.map((field, index) => (
+            <AccordionItem value={`item-${index}`} key={field.id}>
+              <AccordionTrigger className="text-lg font-semibold">
+                {`Disposal Facility ${index + 1}`}
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor={`name-${index}`}>Facility Name</Label>
+                      <Input id={`name-${index}`} {...register(`disposalFacilities.${index}.name`)} className="mt-1" />
+                    </div>
+                    <div>
+                      <Label htmlFor={`address-${index}`}>Address</Label>
+                      <Input id={`address-${index}`} {...register(`disposalFacilities.${index}.address`)} className="mt-1" />
+                    </div>
+                    <div>
+                      <Label>Facility Type</Label>
+                      <div className="grid grid-cols-2 gap-2 mt-1">
+                        {facilityTypes.map((type) => (
+                          <div key={type.id} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`${type.id}-${index}`}
+                              {...register(`disposalFacilities.${index}.facilityTypes.${type.id}`)}
+                            />
+                            <Label htmlFor={`${type.id}-${index}`} className="flex items-center">
+                              {type.icon}
+                              <span className="ml-2">{type.label}</span>
+                            </Label>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.wasteType`)} placeholder="Waste Type" />
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.countyOrigin`)} placeholder="County Origin" />
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.tonsPicked`, { valueAsNumber: true })} type="number" placeholder="Tons Picked Up" />
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.tonsDisposed`, { valueAsNumber: true })} type="number" placeholder="Tons Disposed" />
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.disposalFee`, { valueAsNumber: true })} type="number" placeholder="Disposal Fee" />
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.recyclingTax`, { valueAsNumber: true })} type="number" placeholder="Recycling Tax" />
-                </TableCell>
-                <TableCell>
-                  <Input {...register(`disposalFacilities.${index}.grossRevenue`, { valueAsNumber: true })} type="number" placeholder="Gross Revenue" />
-                </TableCell>
-                <TableCell>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor={`wasteType-${index}`}>Waste Type</Label>
+                      <Input id={`wasteType-${index}`} {...register(`disposalFacilities.${index}.wasteType`)} className="mt-1" />
+                    </div>
+                    <div>
+                      <Label htmlFor={`countyOrigin-${index}`}>County Origin</Label>
+                      <Input id={`countyOrigin-${index}`} {...register(`disposalFacilities.${index}.countyOrigin`)} className="mt-1" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor={`tonsPicked-${index}`}>Tons Picked Up</Label>
+                        <Input id={`tonsPicked-${index}`} type="number" {...register(`disposalFacilities.${index}.tonsPicked`, { valueAsNumber: true })} className="mt-1" />
+                      </div>
+                      <div>
+                        <Label htmlFor={`tonsDisposed-${index}`}>Tons Disposed</Label>
+                        <Input id={`tonsDisposed-${index}`} type="number" {...register(`disposalFacilities.${index}.tonsDisposed`, { valueAsNumber: true })} className="mt-1" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor={`disposalFee-${index}`}>Disposal Fee</Label>
+                        <Input id={`disposalFee-${index}`} type="number" {...register(`disposalFacilities.${index}.disposalFee`, { valueAsNumber: true })} className="mt-1" />
+                      </div>
+                      <div>
+                        <Label htmlFor={`recyclingTax-${index}`}>Recycling Tax</Label>
+                        <Input id={`recyclingTax-${index}`} type="number" {...register(`disposalFacilities.${index}.recyclingTax`, { valueAsNumber: true })} className="mt-1" />
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor={`grossRevenue-${index}`}>Gross Revenue</Label>
+                      <Input id={`grossRevenue-${index}`} type="number" {...register(`disposalFacilities.${index}.grossRevenue`, { valueAsNumber: true })} className="mt-1" />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end mt-4">
                   <Button
                     type="button"
                     variant="destructive"
-                    size="icon"
+                    size="sm"
                     onClick={() => remove(index)}
+                    className="flex items-center"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Remove Facility
                   </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <div className="mt-4 flex justify-between items-center">
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+        <div className="mt-6 flex justify-between items-center">
           <Button
             type="button"
             variant="outline"
-            size="sm"
             onClick={() => append({
               name: '',
               address: '',
@@ -124,15 +136,16 @@ const DisposalInformation = ({ control, register, setValue }) => {
               recyclingTax: 0,
               grossRevenue: 0
             })}
+            className="flex items-center"
           >
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <PlusCircle className="h-4 w-4 mr-2" />
             Add Disposal Facility
           </Button>
-          <Button type="button" onClick={calculateTotals}>Calculate Totals</Button>
+          <Button type="button" onClick={calculateTotals} variant="secondary">Calculate Totals</Button>
         </div>
-        <div className="mt-4">
-          <Label htmlFor="totalGrossRevenue">Total Gross Revenue</Label>
-          <Input id="totalGrossRevenue" {...register('totalGrossRevenue')} readOnly />
+        <div className="mt-6 p-4 bg-gray-100 rounded-md">
+          <Label htmlFor="totalGrossRevenue" className="text-lg font-semibold">Total Gross Revenue</Label>
+          <Input id="totalGrossRevenue" {...register('totalGrossRevenue')} className="mt-2 text-xl font-bold" readOnly />
         </div>
       </CardContent>
     </Card>
