@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { navItems } from "./nav-items";
 import CPCNForm from "./pages/CPCNForm";
 import Dashboard from "./pages/Dashboard";
+import CRM from "./pages/CRM";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
           ))}
           <Route path="/cpcn-form" element={<CPCNForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/crm" element={<CRM />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
