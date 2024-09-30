@@ -5,6 +5,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const InvoiceGeneration = () => {
+  const handleGenerateInvoice = () => {
+    // Implement invoice generation logic here
+    console.log('Generating invoice...');
+  };
+
   return (
     <div className="space-y-4 max-w-md mx-auto">
       <Select>
@@ -31,7 +36,7 @@ const InvoiceGeneration = () => {
       </Select>
       <div className="flex justify-end space-x-2">
         <Button variant="outline">Preview</Button>
-        <Button>Generate Invoice</Button>
+        <Button onClick={handleGenerateInvoice}>Generate Invoice</Button>
       </div>
     </div>
   );
