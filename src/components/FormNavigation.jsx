@@ -1,27 +1,29 @@
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ChevronRight } from "lucide-react";
 
 const FormNavigation = ({ sections, currentStep, onNavigate }) => {
   return (
-    <ScrollArea className="w-full whitespace-nowrap rounded-md border">
-      <div className="flex p-4 space-x-2">
+    <nav className="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
+      <ol className="flex flex-wrap items-center space-x-2 text-sm font-medium text-gray-500">
         {sections.map((section, index) => (
-          <Button
-            key={index}
-            variant={currentStep === index ? "default" : "outline"}
-            size="sm"
-            onClick={() => onNavigate(index)}
-            className={`flex-shrink-0 ${
-              currentStep === index ? "bg-primary text-primary-foreground" : ""
-            }`}
-          >
-            {section.title}
-          </Button>
+          <li key={index} className="flex items-center">
+            <button
+              onClick={() => onNavigate(index)}
+              className={`px-3 py-2 rounded-md transition-colors duration-200 ${
+                currentStep === index
+                  ? "bg-blue-500 text-white"
+                  : "hover:bg-gray-200"
+              }`}
+            >
+              {section.title}
+            </button>
+            {index < sections.length - 1 && (
+              <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+            )}
+          </li>
         ))}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+      </ol>
+    </nav>
   );
 };
 
