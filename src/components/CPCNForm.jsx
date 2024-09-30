@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const CPCNForm = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const [officersAndEquityHolders, setOfficersAndEquityHolders] = useState([
-    { name: '', title: '', equity: '' },
-    { name: '', title: '', equity: '' },
-    { name: '', title: '', equity: '' }
-  ]);
+  const { register, control, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: {
+      officers: [{ name: '', title: '', equity: '' }]
+    }
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "officers"
+  });
 
   const watchSameAsAbove = watch("sameAsAbove", false);
 
@@ -28,45 +31,42 @@ const CPCNForm = () => {
           <CardTitle className="text-center">2023 CPCN ANNUAL REPORT FOR COLLECTORS/TRANSPORTERS AND BROKERS</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="font-bold">FILL IN ALL INFORMATION BELOW:</p>
-          
           <div>
             <p className="font-bold">CHECK ALL THAT APPLY:</p>
             <div className="flex space-x-4">
-              <Checkbox id="collectorTransporter" {...register('collectorTransporter')} />
-              <Label htmlFor="collectorTransporter">COLLECTOR/TRANSPORTER</Label>
-              <Checkbox id="broker" {...register('broker')} />
-              <Label htmlFor="broker">BROKER</Label>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="collectorTransporter" {...register('collectorTransporter')} />
+                <Label htmlFor="collectorTransporter">COLLECTOR/TRANSPORTER</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="broker" {...register('broker')} />
+                <Label htmlFor="broker">BROKER</Label>
+              </div>
             </div>
           </div>
 
-          <div>
-            <p className="font-bold">1. INFORMATION</p>
-            <p className="text-sm italic">*Required: Working Contact Information</p>
-          </div>
-
           <div className="space-y-2">
-            <Label htmlFor="companyName">*OFFICIAL COMPANY NAME</Label>
+            <Label htmlFor="companyName">OFFICIAL COMPANY NAME (required)</Label>
             <Input id="companyName" {...register('companyName', { required: true })} />
             {errors.companyName && <span className="text-red-500">This field is required</span>}
-            <p className="text-xs italic">(This is the name registered with the Division of Commercial Recordings)</p>
+            <p className="text-xs italic">This is the name registered with the Division of Commercial Recordings.</p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">*EMAIL</Label>
+            <Label htmlFor="email">EMAIL (required)</Label>
             <Input id="email" type="email" {...register('email', { required: true })} />
             {errors.email && <span className="text-red-500">This field is required</span>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="streetAddress">*STREET ADDRESS</Label>
+            <Label htmlFor="streetAddress">STREET ADDRESS (required)</Label>
             <Input id="streetAddress" {...register('streetAddress', { required: true })} />
             {errors.streetAddress && <span className="text-red-500">This field is required</span>}
           </div>
 
           <div className="flex space-x-4">
             <div className="flex-1 space-y-2">
-              <Label htmlFor="city">*CITY</Label>
+              <Label htmlFor="city">CITY (required)</Label>
               <Input id="city" {...register('city', { required: true })} />
               {errors.city && <span className="text-red-500">This field is required</span>}
             </div>
@@ -83,20 +83,20 @@ const CPCNForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="fein">*FEIN (or LAST 4# OF SS# FOR SOLE PROPRIETOR)</Label>
+            <Label htmlFor="fein">FEIN (or LAST 4# OF SS# FOR SOLE PROPRIETOR) (required)</Label>
             <Input id="fein" {...register('fein', { required: true })} />
             {errors.fein && <span className="text-red-500">This field is required</span>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="officeTelephone">*OFFICE TELEPHONE</Label>
+            <Label htmlFor="officeTelephone">OFFICE TELEPHONE (required)</Label>
             <Input id="officeTelephone" {...register('officeTelephone', { required: true })} />
             {errors.officeTelephone && <span className="text-red-500">This field is required</span>}
           </div>
 
           <div className="flex space-x-4">
             <div className="flex-1 space-y-2">
-              <Label htmlFor="cellPhone">*CELL PHONE</Label>
+              <Label htmlFor="cellPhone">CELL PHONE (required)</Label>
               <Input id="cellPhone" {...register('cellPhone', { required: true })} />
               {errors.cellPhone && <span className="text-red-500">This field is required</span>}
             </div>
@@ -112,7 +112,7 @@ const CPCNForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>*BILLING/MAILING ADDRESS</Label>
+            <Label>BILLING/MAILING ADDRESS</Label>
             <div className="flex items-center space-x-2">
               <Checkbox id="sameAsAbove" {...register('sameAsAbove')} />
               <Label htmlFor="sameAsAbove">CHECK HERE IF SAME AS ABOVE</Label>
@@ -144,18 +144,24 @@ const CPCNForm = () => {
           )}
 
           <div>
-            <p className="font-bold">2. LIST OFFICERS AND EQUITY HOLDERS:</p>
-            {officersAndEquityHolders.map((_, index) => (
-              <div key={index} className="flex space-x-4 mt-2">
-                <Input {...register(`officers.${index}.name`)} placeholder="*Name" />
-                <Input {...register(`officers.${index}.title`)} placeholder="*Title" />
-                <Input {...register(`officers.${index}.equity`)} placeholder="*Equity" />
+            <p className="font-bold">LIST OFFICERS AND EQUITY HOLDERS:</p>
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex space-x-4 mt-2">
+                <Input {...register(`officers.${index}.name`)} placeholder="Name" />
+                <Input {...register(`officers.${index}.title`)} placeholder="Title" />
+                <Input {...register(`officers.${index}.equity`)} placeholder="Equity (optional)" />
+                {index > 0 && (
+                  <Button type="button" onClick={() => remove(index)}>Remove</Button>
+                )}
               </div>
             ))}
+            <Button type="button" onClick={() => append({ name: '', title: '', equity: '' })} className="mt-2">
+              Add Officer/Equity Holder
+            </Button>
           </div>
 
           <div>
-            <p className="font-bold">3. NAME OF REGISTERED AGENT (Out of State Companies):</p>
+            <p className="font-bold">NAME OF REGISTERED AGENT (Out of State Companies):</p>
             <Input {...register('registeredAgent')} className="mt-2" />
           </div>
 
