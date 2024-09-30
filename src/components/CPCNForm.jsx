@@ -10,7 +10,6 @@ import OperatingAuthority from './CPCNFormSections/OperatingAuthority';
 import SubcontractingOut from './CPCNFormSections/SubcontractingOut';
 import SubcontractingIn from './CPCNFormSections/SubcontractingIn';
 import TariffUpdate from './CPCNFormSections/TariffUpdate';
-import CustomerServiceAreaInventory from './CPCNFormSections/CustomerServiceAreaInventory';
 import BrokersUsed from './CPCNFormSections/BrokersUsed';
 import RelatedCompanies from './CPCNFormSections/RelatedCompanies';
 import DisposalInformation from './CPCNFormSections/DisposalInformation';
@@ -31,7 +30,6 @@ const CPCNForm = () => {
     { title: "Subcontract Out", component: SubcontractingOut },
     { title: "Subcontract In", component: SubcontractingIn },
     { title: "Tariff Update", component: TariffUpdate },
-    { title: "Service Area", component: CustomerServiceAreaInventory },
     { title: "Brokers Used", component: BrokersUsed },
     { title: "Related Companies", component: RelatedCompanies },
     { title: "Disposal Info", component: DisposalInformation },
