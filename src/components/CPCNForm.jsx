@@ -23,19 +23,19 @@ const CPCNForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const sections = [
-    { title: "Company Information", component: CompanyInformation },
-    { title: "Vehicle Information", component: VehicleInformation },
+    { title: "Company Info", component: CompanyInformation },
+    { title: "Vehicles", component: VehicleInformation },
     { title: "Broker Service", component: BrokerService },
-    { title: "Judgments and Liens", component: JudgmentsLiens },
-    { title: "Operating Authority", component: OperatingAuthority },
-    { title: "Subcontracting Out", component: SubcontractingOut },
-    { title: "Subcontracting In", component: SubcontractingIn },
-    { title: "Tariff Update (2023)", component: TariffUpdate },
-    { title: "Customer Service Area Inventory", component: CustomerServiceAreaInventory },
-    { title: "Brokers Used in 2023", component: BrokersUsed },
+    { title: "Judgments", component: JudgmentsLiens },
+    { title: "Operating Auth", component: OperatingAuthority },
+    { title: "Subcontract Out", component: SubcontractingOut },
+    { title: "Subcontract In", component: SubcontractingIn },
+    { title: "Tariff Update", component: TariffUpdate },
+    { title: "Service Area", component: CustomerServiceAreaInventory },
+    { title: "Brokers Used", component: BrokersUsed },
     { title: "Related Companies", component: RelatedCompanies },
-    { title: "Disposal Information", component: DisposalInformation },
-    { title: "Other Revenue Sources", component: OtherRevenueSources },
+    { title: "Disposal Info", component: DisposalInformation },
+    { title: "Other Revenue", component: OtherRevenueSources },
   ];
 
   const onSubmit = (data) => {
