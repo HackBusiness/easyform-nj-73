@@ -12,6 +12,7 @@ import SubcontractingIn from './CPCNFormSections/SubcontractingIn';
 import TariffUpdate from './CPCNFormSections/TariffUpdate';
 import CustomerServiceAreaInventory from './CPCNFormSections/CustomerServiceAreaInventory';
 import BrokersUsed from './CPCNFormSections/BrokersUsed';
+import RelatedCompanies from './CPCNFormSections/RelatedCompanies';
 import FormProgress from './FormProgress';
 
 const CPCNForm = () => {
@@ -29,6 +30,7 @@ const CPCNForm = () => {
     { title: "Tariff Update (2023)", component: TariffUpdate },
     { title: "Customer Service Area Inventory", component: CustomerServiceAreaInventory },
     { title: "Brokers Used in 2023", component: BrokersUsed },
+    { title: "Related Companies", component: RelatedCompanies },
   ];
 
   const onSubmit = (data) => {
