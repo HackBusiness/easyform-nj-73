@@ -7,6 +7,8 @@ import VehicleInformation from './CPCNFormSections/VehicleInformation';
 import BrokerService from './CPCNFormSections/BrokerService';
 import JudgmentsLiens from './CPCNFormSections/JudgmentsLiens';
 import OperatingAuthority from './CPCNFormSections/OperatingAuthority';
+import SubcontractingOut from './CPCNFormSections/SubcontractingOut';
+import SubcontractingIn from './CPCNFormSections/SubcontractingIn';
 import FormProgress from './FormProgress';
 
 const CPCNForm = () => {
@@ -19,6 +21,8 @@ const CPCNForm = () => {
     { title: "Broker Service", component: BrokerService },
     { title: "Judgments and Liens", component: JudgmentsLiens },
     { title: "Operating Authority", component: OperatingAuthority },
+    { title: "Subcontracting Out", component: SubcontractingOut },
+    { title: "Subcontracting In", component: SubcontractingIn },
   ];
 
   const onSubmit = (data) => {
