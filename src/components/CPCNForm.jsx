@@ -14,6 +14,7 @@ import CustomerServiceAreaInventory from './CPCNFormSections/CustomerServiceArea
 import BrokersUsed from './CPCNFormSections/BrokersUsed';
 import RelatedCompanies from './CPCNFormSections/RelatedCompanies';
 import DisposalInformation from './CPCNFormSections/DisposalInformation';
+import OtherRevenueSources from './CPCNFormSections/OtherRevenueSources';
 import FormProgress from './FormProgress';
 
 const CPCNForm = () => {
@@ -33,6 +34,7 @@ const CPCNForm = () => {
     { title: "Brokers Used in 2023", component: BrokersUsed },
     { title: "Related Companies", component: RelatedCompanies },
     { title: "Disposal Information", component: DisposalInformation },
+    { title: "Other Revenue Sources", component: OtherRevenueSources },
   ];
 
   const onSubmit = (data) => {
